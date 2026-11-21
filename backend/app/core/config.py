@@ -46,6 +46,8 @@ class Settings(BaseSettings):
 
     # --- Database ------------------------------------------------------------------------------------------------
     database_url: str = "postgresql+psycopg://contractlens:contractlens@127.0.0.1:5437/contractlens"
+    # Optional PostgreSQL schema for all tables (lets ContractLens share a database instance safely with other apps).
+    database_schema: str = Field(default="", pattern=r"^([a-z_][a-z0-9_]{0,62})?$")
     db_pool_size: int = 5
     db_max_overflow: int = 5
 

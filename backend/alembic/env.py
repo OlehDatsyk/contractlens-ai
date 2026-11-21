@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config, pool
+from sqlalchemy import engine_from_config, pool, text
 
 import app.models  # noqa: F401 - register models
 from alembic import context
@@ -38,9 +38,17 @@ def run_migrations_offline() -> None:
 
 def run_migrations_online() -> None:
     connectable = engine_from_config({"sqlalchemy.url": _url()}, prefix="sqlalchemy.", poolclass=pool.NullPool)
+    schema = get_settings().database_schema
     with connectable.connect() as connection:
+        extra: dict[str, object] = {}
+        if schema and connection.dialect.name == "postgresql":
+            # Keep every ContractLens table (and the Alembic version table) inside its own schema.
+            connection.execute(text(f'CREATE SCHEMA IF NOT EXISTS "{schema}"'))
+            connection.execute(text(f'SET search_path TO "{schema}"'))
+            connection.commit()
+            extra["version_table_schema"] = schema
         context.configure(connection=connection, target_metadata=target_metadata, render_item=_render_item,
-                          render_as_batch=connection.dialect.name == "sqlite", compare_type=True)
+                          render_as_batch=connection.dialect.name == "sqlite", compare_type=True, **extra)
         with context.begin_transaction():
             context.run_migrations()
 

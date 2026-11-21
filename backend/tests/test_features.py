@@ -282,3 +282,14 @@ def test_production_config_rejects_insecure_defaults(monkeypatch):
     ok = Settings(environment="production", jwt_secret_key="x" * 40, encryption_key="k", storage_backend="database",
                   database_url="postgres://u:p@h/db", _env_file=None)
     assert ok.database_url.startswith("postgresql+psycopg://")
+
+
+def test_database_schema_name_is_validated():
+    import pytest
+
+    from app.core.config import Settings
+
+    assert Settings(database_schema="contractlens", _env_file=None).database_schema == "contractlens"
+    for bad in ['x"; DROP TABLE users; --', "Upper", "1starts_with_digit", "has-dash"]:
+        with pytest.raises(ValueError):
+            Settings(database_schema=bad, _env_file=None)

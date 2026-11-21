@@ -28,13 +28,25 @@ def _make_engine(url: str) -> Engine:
             cur.close()
 
         return engine
-    return create_engine(
+    engine = create_engine(
         url,
         pool_pre_ping=True,
         pool_size=settings.db_pool_size,
         max_overflow=settings.db_max_overflow,
         pool_recycle=1800,
     )
+    schema = settings.database_schema
+    if schema:
+        # The schema name is validated by the settings pattern (lowercase identifier), so quoting is safe.
+
+        @event.listens_for(engine, "connect")
+        def _search_path(dbapi_conn, _record):  # type: ignore[no-untyped-def]
+            cur = dbapi_conn.cursor()
+            cur.execute(f'SET search_path TO "{schema}"')
+            cur.close()
+            dbapi_conn.commit()
+
+    return engine
 
 
 engine: Engine = _make_engine(get_settings().database_url)
