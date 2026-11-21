@@ -293,3 +293,8 @@ def test_database_schema_name_is_validated():
     for bad in ['x"; DROP TABLE users; --', "Upper", "1starts_with_digit", "has-dash"]:
         with pytest.raises(ValueError):
             Settings(database_schema=bad, _env_file=None)
+
+
+def test_health_supports_head(client):
+    assert client.head("/health").status_code == 200
+    assert client.head("/health/ready").status_code == 200

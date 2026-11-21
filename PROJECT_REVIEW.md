@@ -84,8 +84,8 @@ configured S3/SMTP endpoints — no user-supplied URLs are fetched.
 
 | Check | Result |
 | --- | --- |
-| Backend tests — SQLite | **114 passed** |
-| Backend tests — PostgreSQL 16 | **114 passed** |
+| Backend tests — SQLite | **116 passed** |
+| Backend tests — PostgreSQL 16 | **116 passed** |
 | Frontend tests (Vitest) | **19 passed** |
 | Ruff lint / mypy | Pass / no issues (44 files) |
 | Bandit | No issues (2 reviewed low findings annotated) |
@@ -95,6 +95,8 @@ configured S3/SMTP endpoints — no user-supplied URLs are fetched.
 | Docker image build | Pass (OCR available in the image) |
 | Smoke test, local dev server (real PostgreSQL, worker) | **24/24** checks |
 | Smoke test, production container (`ENVIRONMENT=production`, database storage) | **25/25** checks (refresh rotation skipped over HTTP by design) |
+| GitHub Actions CI (backend, frontend, Docker build) | Passed |
+| **Live Render deployment** smoke test (HTTPS, production) | **25/25** checks, including refresh-token rotation |
 | Persistence across container restart | Document byte-identical and queued job completed after restart |
 | Browser walkthrough | Register, dashboard empty state, upload via UI, analysis, risks, comparison, deadlines, reports, settings, mobile (375 px) — no page overflow; only console errors are the expected 401s of the silent session check before sign-in |
 
@@ -116,9 +118,22 @@ Windows).
 - Comparison alignment is heuristic and may pair clauses imperfectly (stated in the UI).
 - Password reset emails require SMTP in production.
 
-## 8. Deployment risks
+## 8. Deployment
 
-- Render free PostgreSQL expires after 30 days and has no backups — use a paid plan for real data.
+Live at https://contractlens-ai-8ji9.onrender.com (Render, Frankfurt): one free Docker web service serving the API, SPA
+and embedded worker; data and documents in PostgreSQL. Verified on the live service: `/health/ready` (database,
+migrations `0001`, storage), HTTPS with HSTS/CSP/X-Frame-Options, API docs disabled, registration, login, refresh rotation,
+workspace creation, PDF/DOCX upload, analysis, assistant, comparison, report export, deadline creation, authorised
+download, cross-workspace blocking, tampered-link rejection, deletion, and the "AI not configured" state. No AI provider
+key is configured and no paid AI calls were made.
+
+Database: the workspace's one free PostgreSQL instance (`remixfox-db`) was already in use, so ContractLens shares it in a
+dedicated schema (`contractlens`) — tested locally to confirm the other application's tables are untouched.
+
+### Deployment risks
+
+- The shared free PostgreSQL instance expires on **2026-12-08** and has no backups; all demo data is lost then unless the
+  instance is upgraded or the app is moved to a dedicated database (see `render.yaml`). Its 1 GB is shared with another app.
 - Free web instances sleep; the first request after idle is slow and background processing pauses while asleep (jobs persist).
 - With `STORAGE_BACKEND=database`, document bytes count toward the database size (1 GB on the free plan).
 - Migrations run on start; with several web instances, deploy one instance first or run migrations as a pre-deploy step.

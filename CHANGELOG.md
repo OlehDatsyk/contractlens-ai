@@ -2,6 +2,18 @@
 
 All notable changes to this project are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [1.0.1] - 2026-11-21
+
+### Added
+- `DATABASE_SCHEMA` setting: keeps all tables (and Alembic's version table) in a dedicated PostgreSQL schema so the app
+  can share a database instance safely.
+- `HEAD` support on `/health` and `/health/ready` for uptime monitors.
+- Live deployment on Render: https://contractlens-ai-8ji9.onrender.com
+
+### Changed
+- Render Blueprint uses the workspace's existing free PostgreSQL instance with schema `contractlens` instead of creating
+  a second database (only one free instance is allowed per workspace).
+
 ## [1.0.0] - 2026-11-21
 
 ### Added

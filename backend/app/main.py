@@ -100,11 +100,12 @@ def create_app() -> FastAPI:
     for module in (auth, workspaces, contracts, assistant, insights, downloads, system):
         app.include_router(module.router, prefix="/api")
 
-    @app.get("/health", include_in_schema=False)
+    # HEAD is accepted too, because many uptime monitors probe with HEAD requests.
+    @app.api_route("/health", methods=["GET", "HEAD"], include_in_schema=False)
     def root_health() -> dict[str, str]:
         return {"status": "ok"}
 
-    @app.get("/health/ready", include_in_schema=False)
+    @app.api_route("/health/ready", methods=["GET", "HEAD"], include_in_schema=False)
     def root_ready(request: Request, response: Response) -> dict[str, object]:
         from app.core.db import SessionLocal
 

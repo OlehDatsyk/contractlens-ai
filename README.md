@@ -8,6 +8,9 @@ compares versions, and answers questions with citations to the document itself.
 > Automated and AI analysis may be incomplete or incorrect — verify important findings in the original document and have
 > important legal decisions reviewed by a qualified legal professional.
 
+**Live demo:** https://contractlens-ai-8ji9.onrender.com (Render free plan — the first request after idle can take about a
+minute; demo data is temporary, see [Deployment](#deployment). Use synthetic documents only.)
+
 ![Dashboard](docs/screenshots/dashboard.jpg)
 
 | Contract overview | Risk findings with evidence | Version comparison |
@@ -138,7 +141,10 @@ providers are mocked — no credentials or paid calls are needed. All test docum
 ## Deployment
 
 The repository contains a Render Blueprint ([render.yaml](render.yaml)): one Docker web service (API + SPA + embedded
-worker) and a Render PostgreSQL database that also stores documents privately. See
+worker) backed by Render PostgreSQL, which also stores documents privately. The live demo runs entirely on free plans and
+shares the workspace's existing free PostgreSQL instance, isolated in its own schema (`DATABASE_SCHEMA=contractlens`).
+Free Render databases are deleted 30 days after creation, so the demo's data is temporary; `render.yaml` documents the
+one-line switch to a dedicated paid database. See
 [INSTRUCTION.md › Deployment](INSTRUCTION.md#deployment-on-render) for the step-by-step guide, plan limits and
 S3/worker options.
 

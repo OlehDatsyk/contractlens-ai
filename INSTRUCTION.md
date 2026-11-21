@@ -138,14 +138,21 @@ The Blueprint in [render.yaml](render.yaml) creates:
 
 | Resource | Type | Purpose |
 | --- | --- | --- |
-| `contractlens-ai` | Web service (Docker) | API + React app (same origin) + embedded worker |
-| `contractlens-db` | PostgreSQL | Data, job queue and private document storage |
+| `contractlens-ai` | Web service (Docker, free plan) | API + React app (same origin) + embedded worker |
+| PostgreSQL | Existing instance referenced by name | Data, job queue and private document storage |
+
+**Current live deployment:** https://contractlens-ai-8ji9.onrender.com. Render allows one free PostgreSQL instance per
+workspace, and this workspace's free instance (`remixfox-db`) already exists, so the Blueprint references it and keeps
+every ContractLens table in a separate schema via `DATABASE_SCHEMA=contractlens` (the other application's tables are never
+touched). That instance is free, has 1 GB shared storage and **expires on 2026-12-08** unless upgraded — treat demo data
+as temporary. To use a dedicated database instead, follow the instructions at the top of `render.yaml`
+(Basic 256 MB costs about $6/month plus ~$0.30/GB storage at the time of writing).
 
 ### Steps
 
 1. Push the repository to GitHub.
 2. In the Render Dashboard choose **New → Blueprint**, connect the repository and select `render.yaml`.
-3. Review the plan for each resource (see costs below) and click **Apply**. `JWT_SECRET_KEY` and `ENCRYPTION_KEY` are
+3. Review the plan for each resource (see costs below) and click **Deploy Blueprint**. `JWT_SECRET_KEY` and `ENCRYPTION_KEY` are
    generated automatically.
 4. Optional: in the service's **Environment** tab add `OPENAI_API_KEY` / `ANTHROPIC_API_KEY` / `GEMINI_API_KEY` and set
    `AI_PROVIDER` accordingly; add `SMTP_*` for email. Save to redeploy.
