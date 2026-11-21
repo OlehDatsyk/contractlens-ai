@@ -1,0 +1,41 @@
+MASTER SERVICES AGREEMENT
+
+This Master Services Agreement (the "Agreement") is entered into as of April 15, 2026 (the "Effective Date") between Northwind Analytics Ltd., a company registered in England ("Client") and Harbor Pixel Studio LLC, a Delaware limited liability company ("Contractor").
+
+1. Services
+1.1 The Contractor shall provide the design and development services described in each Statement of Work.
+1.2 The Contractor shall deliver monthly progress reports to the Client no later than the fifth business day of each month.
+
+2. Term and Renewal
+2.1 This Agreement shall commence on the Effective Date and continue for a period of twelve (12) months.
+2.2 This Agreement may be renewed for a further term by written agreement of both parties.
+
+3. Fees and Payment
+3.1 The Client shall pay the Contractor a monthly fee of USD 14,000.
+3.2 The Client shall pay each invoice within thirty (30) days of receipt of the invoice.
+3.3 Overdue amounts shall accrue interest at 1% per month until paid.
+
+4. Confidentiality
+Each party shall keep the other party's Confidential Information strictly confidential and shall not disclose it to any third party. These obligations survive for five (5) years after termination.
+
+5. Intellectual Property
+Upon full payment, the Contractor assigns to the Client all right, title and interest in the deliverables created under this Agreement.
+
+6. Limitation of Liability
+Each party's aggregate liability under this Agreement shall not exceed the fees paid in the twelve (12) months preceding the claim.
+
+7. Indemnification
+Each party shall indemnify the other party against third-party claims caused by its breach of this Agreement.
+
+8. Termination
+8.1 Either party may terminate this Agreement for convenience upon thirty (30) days' written notice.
+8.2 Either party may terminate this Agreement for material breach that is not cured within thirty (30) days.
+
+9. Data Protection
+The Contractor shall process customer personal data only on the Client's documented instructions and in accordance with the GDPR.
+
+10. Governing Law
+This Agreement shall be governed by the laws of England and Wales, and the courts of London shall have exclusive jurisdiction.
+
+11. Insurance
+The Contractor shall maintain professional indemnity insurance of at least USD 1,000,000 during the term.

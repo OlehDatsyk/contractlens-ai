@@ -1,0 +1,42 @@
+MASTER SERVICES AGREEMENT
+
+This Master Services Agreement (the "Agreement") is entered into as of March 1, 2026 (the "Effective Date") between Northwind Analytics Ltd., a company registered in England ("Client") and Harbor Pixel Studio LLC, a Delaware limited liability company ("Contractor").
+
+1. Services
+1.1 The Contractor shall provide the design and development services described in each Statement of Work.
+1.2 The Contractor shall deliver monthly progress reports to the Client no later than the fifth business day of each month.
+
+2. Term and Renewal
+2.1 This Agreement shall commence on the Effective Date and continue for a period of twelve (12) months.
+2.2 This Agreement shall automatically renew for successive twelve-month periods unless either party gives ninety (90) days' prior written notice of non-renewal.
+
+3. Fees and Payment
+3.1 The Client shall pay the Contractor a monthly fee of USD 12,500.
+3.2 The Client shall pay each invoice within sixty (60) days of receipt of the invoice.
+3.3 Overdue amounts shall accrue interest at 2% per month until paid.
+3.4 The Contractor may increase its fees at any time upon written notice to the Client.
+
+4. Confidentiality
+Each party shall keep the other party's Confidential Information strictly confidential and shall not disclose it to any third party. These obligations survive indefinitely.
+
+5. Intellectual Property
+The Contractor hereby assigns to the Client all right, title and interest in all deliverables and any pre-existing materials incorporated into the deliverables.
+
+6. Limitation of Liability
+The Contractor's liability under this Agreement shall be unlimited liability for any breach.
+
+7. Indemnification
+The Contractor shall indemnify and hold harmless the Client against any and all claims, losses and damages arising out of the Services, regardless of cause.
+
+8. Termination
+8.1 The Client may terminate this Agreement at any time for convenience upon fifteen (15) days' written notice.
+8.2 Either party may terminate this Agreement for material breach that is not cured within thirty (30) days.
+
+9. Non-Compete
+During the term and for twenty-four (24) months thereafter, the Contractor shall not engage in any business that competes with the Client worldwide.
+
+10. Data Protection
+The Contractor shall process customer personal data only on the Client's documented instructions and in accordance with the GDPR.
+
+11. Governing Law
+This Agreement shall be governed by the laws of England and Wales, and the courts of London shall have exclusive jurisdiction.

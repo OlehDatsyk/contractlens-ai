@@ -1,0 +1,73 @@
+# ContractLens AI - local stack
+#   docker compose up -d db            -> PostgreSQL only (used by the Start App scripts for local development)
+#   docker compose up --build          -> full stack: PostgreSQL + API/web app + background worker
+#
+# Secrets: copy .env.example to .env and set JWT_SECRET_KEY / ENCRYPTION_KEY before running the full stack.
+name: contractlens-ai
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: contractlens
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-contractlens}
+      POSTGRES_DB: contractlens
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-5437}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U contractlens -d contractlens"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  app:
+    build: .
+    profiles: ["full"]
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      ENVIRONMENT: ${ENVIRONMENT:-production}
+      DATABASE_URL: postgresql+psycopg://contractlens:${POSTGRES_PASSWORD:-contractlens}@db:5432/contractlens
+      STORAGE_BACKEND: local
+      LOCAL_STORAGE_PATH: /data/storage
+      LOCAL_STORAGE_PERSISTENT: "true"
+      RUN_WORKER_IN_API: "false"
+      FRONTEND_URL: http://localhost:8080
+      BACKEND_URL: http://localhost:8080
+    ports:
+      - "127.0.0.1:8080:8000"
+    volumes:
+      - storage:/data/storage
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  worker:
+    build: .
+    profiles: ["full"]
+    command: ["python", "-m", "app.worker"]
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      ENVIRONMENT: ${ENVIRONMENT:-production}
+      DATABASE_URL: postgresql+psycopg://contractlens:${POSTGRES_PASSWORD:-contractlens}@db:5432/contractlens
+      STORAGE_BACKEND: local
+      LOCAL_STORAGE_PATH: /data/storage
+      LOCAL_STORAGE_PERSISTENT: "true"
+      FRONTEND_URL: http://localhost:8080
+    volumes:
+      - storage:/data/storage
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  storage:
